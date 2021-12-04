@@ -4,6 +4,20 @@ from selenium.webdriver.common.by import By
 import time
 
 
+search__input_class = "zen-ui-search__input"
+button_search_class = "zen-ui-search__submit-button"
+video_sidebar_class = "sidebar-item-view__title"
+video_add_class = "video-add-button-view"
+video_page_class = "video-site-app__page"
+zen_ui_button_class = "zen-ui-button2__text"
+card_video_class = "card-layer-feedback-card-view__title"
+notifier_message_class = "Notifications-MessageTitle"
+application_class = "Application-Header"
+not_box_class = "notifier__box"
+sidebar_class = "sidebar-section-view__row"
+button_unfold_class = "button-unfold__icon"
+
+
 def test_search_input(driver):
     print("-------------------------")
     print("Ввод в поисковую строку: ")
@@ -11,10 +25,11 @@ def test_search_input(driver):
 
     try:
 
-        search = driver.find_element(By.CLASS_NAME, "zen-ui-search__input")
+
+        search = driver.find_element(By.CLASS_NAME, search__input_class)
         search.send_keys("Вечерняя Москва")
 
-        btn = driver.find_element(By.CLASS_NAME, "zen-ui-search__submit-button")
+        btn = driver.find_element(By.CLASS_NAME, button_search_class)
 
         if search.get_attribute("value") == "Вечерняя Москва" and btn != None:
             print("Успешно")
@@ -30,14 +45,14 @@ def test_video_page(driver):
     print("Переход на страницу видео: ")
     driver.get("https://zen.yandex.ru/")
 
-    video = driver.find_elements(By.CLASS_NAME, "sidebar-item-view__title")
+    video = driver.find_elements(By.CLASS_NAME, video_sidebar_class )
 
     video[1].click()
 
     try:
-        btn = driver.find_element(By.CLASS_NAME, "video-add-button-view")
+        btn = driver.find_element(By.CLASS_NAME, video_add_class)
 
-        page = driver.find_element(By.CLASS_NAME, "video-site-app__page")
+        page = driver.find_element(By.CLASS_NAME, video_page_class)
 
         if btn != None and page != None:
             print("Успешно")
@@ -53,15 +68,15 @@ def test_like_video(driver):
     print("Лайк и появление кнопки \"подписаться\": ")
     driver.get("https://zen.yandex.ru/")
 
-    video = driver.find_elements(By.CLASS_NAME, "sidebar-item-view__title")
+    video = driver.find_elements(By.CLASS_NAME, video_sidebar_class)
     video[1].click()
 
     try:
 
-        like = driver.find_elements(By.CLASS_NAME, "zen-ui-button2__text")
+        like = driver.find_elements(By.CLASS_NAME, zen_ui_button_class)
         like[1].click()
 
-        subscribe = driver.find_elements(By.CLASS_NAME, "zen-ui-button2__text")
+        subscribe = driver.find_elements(By.CLASS_NAME, zen_ui_button_class)
 
         if subscribe[0].text == "Subscribe" or subscribe[0].text == "Подписаться":
             print("Успешно")
@@ -77,15 +92,15 @@ def test_dislike_video(driver):
     print("Дизлайк и карточка с уведомлением, что контент скрыт: ")
     driver.get("https://zen.yandex.ru/")
 
-    video = driver.find_elements(By.CLASS_NAME, "sidebar-item-view__title")
+    video = driver.find_elements(By.CLASS_NAME, video_sidebar_class)
     video[1].click()
 
     try:
 
-        dislike = driver.find_elements(By.CLASS_NAME, "zen-ui-button2__text")
+        dislike = driver.find_elements(By.CLASS_NAME, zen_ui_button_class)
         dislike[2].click()
 
-        content = driver.find_element(By.CLASS_NAME, "card-layer-feedback-card-view__title")
+        content = driver.find_element(By.CLASS_NAME, card_video_class)
 
         if content.text == "Content hidden" or content.text == "Публикация скрыта":
             print("Успешно")
@@ -101,16 +116,16 @@ def test_empty_notifier(driver):
     print("Уведомления: ")
     driver.get("https://zen.yandex.ru/")
 
-    notifier = driver.find_element(By.CLASS_NAME, "notifier__box")
+    notifier = driver.find_element(By.CLASS_NAME, not_box_class)
     notifier.click()
 
     time.sleep(4)
 
     # title = driver.execute_script("return document.getElementsByClassName('Title Title_level_1 Header-Title')")
-    title = driver.find_elements(By.CLASS_NAME, "Application-Header")
+    title = driver.find_elements(By.CLASS_NAME, application_class)
     title_text = "Уведомления"
     print(title)
-    notifier_message = driver.find_element(By.CLASS_NAME, "Notifications-MessageTitle")
+    notifier_message = driver.find_element(By.CLASS_NAME, notifier_message_class )
     notifier_message_text = "Здесь будут ваши уведомления от сервисов Яндекса"
 
     if title.text == title_text and notifier_message.text == notifier_message_text:
@@ -124,12 +139,12 @@ def test_interests(driver):
     print("Интересы: ")
     driver.get("https://zen.yandex.ru/")
 
-    count1 = len(driver.find_elements(By.CLASS_NAME, "sidebar-section-view__row"))
+    count1 = len(driver.find_elements(By.CLASS_NAME, sidebar_class))
 
-    btn = driver.find_element(By.CLASS_NAME, "button-unfold__icon")
+    btn = driver.find_element(By.CLASS_NAME, button_unfold_class)
     btn.click()
 
-    count2 = len(driver.find_elements(By.CLASS_NAME, "sidebar-section-view__row"))
+    count2 = len(driver.find_elements(By.CLASS_NAME, sidebar_class))
 
     if count2 > count1:
         print("Успешно")
